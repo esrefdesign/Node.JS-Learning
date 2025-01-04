@@ -18,4 +18,4 @@ class Categories extends mongoose.Model{
 }
 
 schema.loadClass(Categories);
-module.exports = mongoose.model("users",schema)
+module.exports = mongoose.model("categories",schema)
