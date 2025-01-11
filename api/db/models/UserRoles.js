@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const schema=mongoose.Schema({
-    role_name:  { type: String, required: true },
+    role_name:  { type: String},
     is_active:{type: Boolean, default:true},
     created_by: {
         type: mongoose.SchemaTypes.ObjectId,
-        required:true
+        
     },
 },{
     versionKey:false,
@@ -20,4 +20,4 @@ class UserRoles extends mongoose.Model{
 }
 
 schema.loadClass(UserRoles);
-module.exports = mongoose.model("users",schema)
+module.exports = mongoose.model("userRoles",schema)

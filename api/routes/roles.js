@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const Roles = require("../db/models/roles");
+const Roles = require("../db/models/Roles");
 const RolePrivileges = require("../db/models/RolePrivileges");
 const Response=require("../lib/response");
 const CustomError = require("../lib/error");
