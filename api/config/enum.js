@@ -17,7 +17,11 @@ module.exports={
         UNPROCESSINLE_ENTITY: 422,
         TOO_MANY_REQUEST:429,
         INT_SERVER_ERROR:500,
-        BAD_GATEWAY: 502
-    }
+        BAD_GATEWAY: 502,
+    },
+    PASS_LENGHT:8,
+
+    SUPER_ADMIN:"SUPER_ADMIN"
+
 }
 

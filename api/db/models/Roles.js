@@ -1,6 +1,7 @@
 const { query } = require('express');
 const mongoose = require('mongoose');
 const RolePrivileges= require('./RolePrivileges');
+const { array } = require('is_js');
 
 const schema=mongoose.Schema({
     role_name:  { type: String, required: true },
@@ -9,6 +10,7 @@ const schema=mongoose.Schema({
         type: mongoose.SchemaTypes.ObjectId,
         
     },
+    roles:{type:Array}
 },{
     versionKey:false,
     timestamps:{
@@ -31,4 +33,5 @@ class Roles extends mongoose.Model{
 }
 
 schema.loadClass(Roles);
-module.exports = mongoose.model("roles",schema)
+const RolesModel = mongoose.model('roles', schema);
+module.exports = RolesModel
