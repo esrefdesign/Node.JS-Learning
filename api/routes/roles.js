@@ -6,6 +6,7 @@ const RolePrivileges = require("../db/models/RolePrivileges");
 const Response=require("../lib/response");
 const CustomError = require("../lib/error");
 const _enum = require("../config/enum");
+const AuditLogs= require("../db/models/AuditLogs")
 const role_privileges = require("../config/role_privileges");
 
 router.get("/",async (req,res)=>{

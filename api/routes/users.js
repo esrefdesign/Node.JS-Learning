@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt-nodejs');
 const is = require("is_js")
 const Roles = require("../db/models/Roles")
 const UserRoles = require("../db/models/UserRoles")
+const AuditLogs= require("../db/models/AuditLogs")
 
 
 var router = express.Router();
