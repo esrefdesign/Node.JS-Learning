@@ -56,8 +56,7 @@ router.post('/add', async(req, res, next)=> {
       first_name:body.first_name,
       last_name:body.last_name,
       phone_number:body.phone_number,
-      roles:body._id
-
+      roles:roles
     });
 
     for (let i = 0; i < body.roles.length; i++) {
@@ -99,7 +98,6 @@ router.post("/update",async(req,res,next)=>{
 
       let removedRoles = userRoles.filter(x=>!body.roles.includes(x.role_id.tostring()))
       let newRoles = body.roles.filter(x=>!userRoles.map(r =>r.role_id).includes(x))
-
       if(removedRoles.length>0){
           await UserRoles.deleteMany({_id:{$in: removedRoles.map(x=>x._id.tostring())}})
       }
@@ -120,7 +118,7 @@ router.post("/update",async(req,res,next)=>{
 
     }
     let roles = await Roles.find({_id:{$in:body.roles}})
-
+    updates.roles=roles
     if(roles.lenght==0){
        throw new CustomError(_enum.HTTP_CODES.BAD_REQUEST,"Validation error,roles must be an array")
     }
@@ -181,9 +179,7 @@ router.post('/register', async(req, res, next)=> {
 
     
     let password = bcrypt.hashSync(body.password,bcrypt.genSaltSync(8),null)
-    
-    
-
+   
     let createdUser= await users.create({
       email:body.email,
       password,
@@ -191,7 +187,6 @@ router.post('/register', async(req, res, next)=> {
       first_name:body.first_name,
       last_name:body.last_name,
       phone_number:body.phone_number,
-      roles:body._id
     });
 
     let role = await Roles.create({
@@ -199,6 +194,8 @@ router.post('/register', async(req, res, next)=> {
       is_active: true,
       created_by: createdUser._id
     });
+
+    
 
     await UserRoles.create({
       role_id: role._id,

@@ -10,7 +10,6 @@ const schema=mongoose.Schema({
         type: mongoose.SchemaTypes.ObjectId,
         
     },
-    roles:{type:Array}
 },{
     versionKey:false,
     timestamps:{
