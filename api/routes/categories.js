@@ -5,7 +5,7 @@ const Response = require("../lib/response")
 const CustomError =require("../lib/error")
 const Enum = require("../config/enum")
 const AuditLogs= require("../lib/AuditLogs")
-
+const logger = require("../lib/logger/LoggerClass")
 
 /* GET users listing. */
 router.get('/', async function(req, res, next){
@@ -35,11 +35,13 @@ router.post('/add',async(req,res)=>{
 
         
         AuditLogs.info(req.user?.email,"Categories","Add",category);
+        logger.info(req.user?.email,"Categories","add",category);
         
         res.json(Response.successResponse({succses: true}));
         
 
     } catch (error) {
+        logger.error(req.user?.email,"Categories","add","error");
         let errorResponse=Response.errorResponse(error)
         res.status(errorResponse.code).json(errorResponse)
     }

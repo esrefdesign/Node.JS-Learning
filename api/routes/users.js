@@ -15,9 +15,9 @@ var router = express.Router();
 /* GET users listing. */
 router.get('/', async(req, res, next)=> {
   try {
-    let users = await Users.find({});
+    let userList = await users.find({});
 
-    res.json(Response.successResponse(users))
+    res.json(Response.successResponse(userList))
 
   } catch (error) {
     let errorResponse = Response.errorResponse(error);
