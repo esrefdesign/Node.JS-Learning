@@ -7,13 +7,12 @@ const bcrypt = require('bcrypt-nodejs');
 const is = require("is_js")
 const Roles = require("../db/models/Roles")
 const UserRoles = require("../db/models/UserRoles")
-const AuditLogs= require("../db/models/AuditLogs")
 
 
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', async(req, res, next)=> {
+router.get('/', async(req, res)=> {
   try {
     let userList = await users.find({});
 
@@ -27,7 +26,7 @@ router.get('/', async(req, res, next)=> {
 //
 
  
-router.post('/add', async(req, res, next)=> {
+router.post('/add', async(req, res)=> {
   let body = req.body;
   
   try {
@@ -76,7 +75,7 @@ router.post('/add', async(req, res, next)=> {
   }
 });
 
-router.post("/update",async(req,res,next)=>{
+router.post("/update",async(req,res)=>{
 
   try {
     let body = req.body;
@@ -137,7 +136,7 @@ router.post("/update",async(req,res,next)=>{
 
 })
 
-router.post('/delete',async(req,res,next)=>{
+router.post('/delete',async(req,res)=>{
 
   try {
     let body = req.body;
@@ -159,7 +158,7 @@ router.post('/delete',async(req,res,next)=>{
 })
 
 
-router.post('/register', async(req, res, next)=> {
+router.post('/register', async(req, res)=> {
   let body = req.body;
   
   let user = await users.findOne({});
