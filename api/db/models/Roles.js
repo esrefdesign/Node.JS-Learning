@@ -1,7 +1,5 @@
-const { query } = require('express');
 const mongoose = require('mongoose');
 const RolePrivileges= require('./RolePrivileges');
-const { array } = require('is_js');
 
 const schema=mongoose.Schema({
     role_name:  { type: String, required: true },

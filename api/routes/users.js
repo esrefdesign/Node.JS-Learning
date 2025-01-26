@@ -6,14 +6,16 @@ const _enum = require('../config/enum');
 const bcrypt = require('bcrypt-nodejs');
 const is = require("is_js")
 const Roles = require("../db/models/Roles")
-const UserRoles = require("../db/models/UserRoles")
-const AuditLogs= require("../db/models/AuditLogs")
+const UserRoles = require("../db/models/UserRoles");
+const Users = require('../db/models/Users');
+const config = require("../config")
+const jwt = require('jwt-simple');
 
 
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', async(req, res, next)=> {
+router.get('/', async(req, res)=> {
   try {
     let userList = await users.find({});
 
@@ -27,7 +29,7 @@ router.get('/', async(req, res, next)=> {
 //
 
  
-router.post('/add', async(req, res, next)=> {
+router.post('/add', async(req, res)=> {
   let body = req.body;
   
   try {
@@ -76,7 +78,7 @@ router.post('/add', async(req, res, next)=> {
   }
 });
 
-router.post("/update",async(req,res,next)=>{
+router.post("/update",async(req,res)=>{
 
   try {
     let body = req.body;
@@ -137,7 +139,7 @@ router.post("/update",async(req,res,next)=>{
 
 })
 
-router.post('/delete',async(req,res,next)=>{
+router.post('/delete',async(req,res)=>{
 
   try {
     let body = req.body;
@@ -159,7 +161,7 @@ router.post('/delete',async(req,res,next)=>{
 })
 
 
-router.post('/register', async(req, res, next)=> {
+router.post('/register', async(req, res)=> {
   let body = req.body;
   
   let user = await users.findOne({});
@@ -212,4 +214,36 @@ router.post('/register', async(req, res, next)=> {
   }
 });
 
+router.post("/auth", async(req,res)=>{
+  try {
+    
+    let {email,password} = req.body;
+
+    Users.validateFieldsBeforeAuth(email,password)
+
+    let user = await Users.findOne({email});
+
+    if(!user) throw new CustomError(_enum.HTTP_CODES.UNAUTHORIZED ,"Validation Error","Email or password is wrong" )
+
+    if(!user.validPassword(password)) throw new CustomError(_enum.HTTP_CODES.UNAUTHORIZED ,"Validation Error","Email or password is wrong" )
+
+    let payload ={
+      id:user._id,
+      exp:parseInt(Date.now/1000) * config.JWT.EXPIRE_TIME,
+    }
+
+    let token = jwt.encode(payload,config.JWT.SECRET);
+    let userData = {
+      _id: user._id,
+      first_name: user.first_name,
+      last_name:user.last_name
+    }
+    res.json(Response.successResponse({token,user:userData}))
+
+
+  } catch (error) {
+    let errorResponse = Response.errorResponse(error);
+    res.status(errorResponse.code).json(errorResponse)
+  }
+})
 module.exports = router;

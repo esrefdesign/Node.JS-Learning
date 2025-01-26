@@ -14,9 +14,6 @@ const schema=mongoose.Schema({
     }
 });
 
-class AuditLogs extends mongoose.Model{
-
-}
 
 
 module.exports = mongoose.model("auditLogs",schema)
